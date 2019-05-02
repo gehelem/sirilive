@@ -1,0 +1,3 @@
+setext fits
+convertraw current 
+preprocess current -cfa -debayer

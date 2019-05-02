@@ -1,0 +1,2 @@
+register master
+stack r_master sum rej 3 3 -nonorm
