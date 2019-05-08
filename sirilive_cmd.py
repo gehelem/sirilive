@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-wrk = '/home/gilles/projects/sirilive/WORK'
-scan = '/home/gilles/projects/sirilive/SCAN'
+
 
 import sys
 import time
@@ -10,6 +9,13 @@ import watchdog
 import shutil
 import os
 import subprocess
+
+www = os.path.expanduser('~/www')
+wrk = os.path.expanduser('~/sirilive/work')
+scan = os.path.expanduser('~/sirilive/scan')
+if os.path.exists(wrk):
+    shutil.rmtree(wrk)
+os.mkdir(wrk)
 
 from watchdog.observers import Observer
 #from watchdog.events import LoggingEventHandler
@@ -26,7 +32,7 @@ class Handler(FileSystemEventHandler):
             if os.listdir(wrk) == []: 
                 shutil.copy(event.src_path,wrk+"/current001.fits")
                 shutil.copy(event.src_path,wrk+"/current002.fits") #dummy pour forcer à faire une sequence
-                subprocess.call('siril -s /home/gilles/projects/sirilive/live10.ssf -d '+wrk, shell=True)
+                subprocess.call('siril -s ~/sirilive/live10.ssf -d '+wrk, shell=True)
                 shutil.move(wrk+"/pp_current001.fits",wrk+"/master001.fits")
                 os.remove(wrk+"/current001.fits")
                 os.remove(wrk+"/current002.fits")                
@@ -38,9 +44,9 @@ class Handler(FileSystemEventHandler):
             else: 
                 shutil.copy(event.src_path,wrk+"/current001.fits")  
                 shutil.copy(event.src_path,wrk+"/current002.fits") #dummy pour forcer à faire une sequence            
-                subprocess.call('siril -s /home/gilles/projects/sirilive/live10.ssf -d '+wrk, shell=True) 
+                subprocess.call('siril -s ~/sirilive/live10.ssf -d '+wrk, shell=True) 
                 shutil.move(wrk+"/pp_current001.fits",wrk+"/master002.fits")
-                subprocess.call('siril -s /home/gilles/projects/sirilive/live50.ssf -d '+wrk, shell=True) 
+                subprocess.call('siril -s ~/sirilive/live50.ssf -d '+wrk, shell=True) 
                 os.remove(wrk+"/current001.fits")
                 os.remove(wrk+"/current002.fits")                
                 #os.remove(wrk+"/current00001.fits")
@@ -55,7 +61,8 @@ class Handler(FileSystemEventHandler):
                 os.remove(wrk+"/master.seq")
                 os.remove(wrk+"/r_master.seq")                
                 shutil.move(wrk+"/r_master_stacked.fits",wrk+"/master001.fits")
-                subprocess.call('convert -flatten -normalize '+wrk+'/master001.fits '+wrk+'/master001.jpeg', shell=True) 
+                #subprocess.call('convert -flatten -normalize '+wrk+'/master001.fits '+wrk+'/master001.jpeg', shell=True) 
+                shutil.copy(wrk+'/public.jpg',www)
                 
         else:
             # Take any action here when a file is first created.
