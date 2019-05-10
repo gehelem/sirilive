@@ -1,3 +1,5 @@
 setext fits
-convertraw current 
-preprocess current -cfa -debayer
+#seqfind_cosme current 3 32769
+preprocess current -cfa -debayer -flip -dark=/home/gilles/sirilive/sample/dark_stacked.fits
+#preprocess current -cfa -debayer -flip
+

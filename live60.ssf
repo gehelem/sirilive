@@ -1,0 +1,4 @@
+load master.fits
+rmgreen 1
+savejpg public 100
+
